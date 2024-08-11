@@ -2,7 +2,6 @@ package org.example.hotelbookingbackend.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.example.hotelbookingbackend.entity.Hotel;
 import org.example.hotelbookingbackend.entity.Room;
 import org.example.hotelbookingbackend.exception.EntityNotFoundException;
 import org.example.hotelbookingbackend.mapper.RoomMapper;
@@ -13,6 +12,7 @@ import org.example.hotelbookingbackend.web.dto.response.RoomResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.text.MessageFormat;
@@ -51,6 +51,7 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
+    @Transactional
     public ResponseEntity<RoomResponse> update(UUID id, UpsertRoomRequest entityRequest) {
         log.info("Update room with ID: {}", id);
 

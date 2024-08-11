@@ -5,7 +5,6 @@ import org.example.hotelbookingbackend.web.dto.response.HotelResponse;
 import org.example.hotelbookingbackend.web.dto.response.ModelListResponse;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 

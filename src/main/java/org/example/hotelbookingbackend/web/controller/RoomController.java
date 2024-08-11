@@ -2,9 +2,7 @@ package org.example.hotelbookingbackend.web.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.example.hotelbookingbackend.service.RoomService;
-import org.example.hotelbookingbackend.web.dto.request.UpsertHotelRequest;
 import org.example.hotelbookingbackend.web.dto.request.UpsertRoomRequest;
-import org.example.hotelbookingbackend.web.dto.response.HotelResponse;
 import org.example.hotelbookingbackend.web.dto.response.RoomResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
