@@ -5,6 +5,7 @@ import org.example.hotelbookingbackend.service.RoomService;
 import org.example.hotelbookingbackend.web.dto.request.UpsertRoomRequest;
 import org.example.hotelbookingbackend.web.dto.response.RoomResponse;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -23,16 +24,19 @@ public class RoomController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<RoomResponse> createRoom(@RequestBody UpsertRoomRequest request){
         return roomService.create(request);
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<RoomResponse> updateRoom(@PathVariable UUID id, @RequestBody UpsertRoomRequest request){
         return roomService.update(id, request);
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Void> deleteRoom(@PathVariable UUID id){
         return roomService.deleteById(id);
     }

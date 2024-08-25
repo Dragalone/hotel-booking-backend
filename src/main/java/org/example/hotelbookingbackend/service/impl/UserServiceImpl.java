@@ -20,6 +20,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,6 +42,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserMapper userMapper;
 
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public ResponseEntity<UserResponse> findByUsername(String username) {
@@ -93,6 +95,7 @@ public class UserServiceImpl implements UserService {
         log.info("Create user: {}", entityRequest);
         User user = userMapper.upsertRequestToUser(entityRequest);
         user.addRole(role);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(

@@ -11,6 +11,7 @@ import org.example.hotelbookingbackend.web.dto.response.HotelResponse;
 import org.example.hotelbookingbackend.web.dto.response.ModelListResponse;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -35,16 +36,19 @@ public class HotelController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<HotelResponse> createHotel(@RequestBody UpsertHotelRequest request){
         return hotelService.create(request);
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<HotelResponse> updateHotel(@PathVariable UUID id, @RequestBody UpsertHotelRequest request){
         return hotelService.update(id, request);
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Void> deleteHotel(@PathVariable UUID id){
         return hotelService.deleteById(id);
     }

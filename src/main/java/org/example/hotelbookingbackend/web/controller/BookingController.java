@@ -8,6 +8,7 @@ import org.example.hotelbookingbackend.web.dto.request.UpsertBookingRequest;
 import org.example.hotelbookingbackend.web.dto.response.BookingResponse;
 import org.example.hotelbookingbackend.web.dto.response.ModelListResponse;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -21,6 +22,7 @@ public class BookingController {
     private final BookingService bookingService;
 
     @GetMapping
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<ModelListResponse<BookingResponse>> getAll(@Valid PaginationRequest paginationRequest){
         return bookingService.findAll(paginationRequest.pageRequest());
     }
@@ -32,6 +34,7 @@ public class BookingController {
 
 
     @GetMapping("/room/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<ModelListResponse<BookingResponse>> getAllByRoomId(@Valid PaginationRequest paginationRequest, @RequestParam UUID roomId){
         return bookingService.findAllByRoomId(paginationRequest.pageRequest(),roomId);
     }

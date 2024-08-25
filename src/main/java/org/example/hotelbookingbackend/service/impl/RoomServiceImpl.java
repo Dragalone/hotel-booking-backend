@@ -2,6 +2,7 @@ package org.example.hotelbookingbackend.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.example.hotelbookingbackend.entity.Hotel;
 import org.example.hotelbookingbackend.entity.Room;
 import org.example.hotelbookingbackend.exception.EntityNotFoundException;
 import org.example.hotelbookingbackend.mapper.RoomMapper;
@@ -9,7 +10,11 @@ import org.example.hotelbookingbackend.repository.HotelRepository;
 import org.example.hotelbookingbackend.repository.RoomRepository;
 import org.example.hotelbookingbackend.service.RoomService;
 import org.example.hotelbookingbackend.web.dto.request.UpsertRoomRequest;
+import org.example.hotelbookingbackend.web.dto.response.HotelResponse;
+import org.example.hotelbookingbackend.web.dto.response.ModelListResponse;
 import org.example.hotelbookingbackend.web.dto.response.RoomResponse;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -38,6 +43,17 @@ public class RoomServiceImpl implements RoomService {
                 roomMapper.roomToResponse(
                         repository.findById(id)
                                 .orElseThrow(() -> new EntityNotFoundException(MessageFormat.format("Room with id {0} not found!", id))))
+        );
+    }
+
+    @Override
+    public ResponseEntity<ModelListResponse<RoomResponse>> findAll(Pageable pageable) {
+        log.info("Find all rooms");
+        Page<Room> rooms = repository.findAll(pageable);
+        return ResponseEntity.ok(ModelListResponse.<RoomResponse>builder()
+                .totalCount(rooms.getTotalElements())
+                .data(rooms.stream().map(roomMapper::roomToResponse).toList())
+                .build()
         );
     }
 
