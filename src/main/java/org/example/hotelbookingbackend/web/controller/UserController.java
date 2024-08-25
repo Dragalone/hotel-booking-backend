@@ -33,17 +33,17 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserResponse> createEvent(@RequestBody UpsertUserRequest request, @Valid @RequestParam RoleType role){
+    public ResponseEntity<UserResponse> createUser(@RequestBody UpsertUserRequest request, @Valid @RequestParam RoleType role){
         return userService.create(request, role);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserResponse> updateEvent(@PathVariable UUID id, @RequestBody UpsertUserRequest request){
+    public ResponseEntity<UserResponse> updateUser(@PathVariable UUID id, @RequestBody UpsertUserRequest request){
         return userService.update(id, request);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteEvent(@PathVariable UUID id){
+    public ResponseEntity<Void> deleteUser(@PathVariable UUID id){
         return userService.deleteById(id);
     }
 

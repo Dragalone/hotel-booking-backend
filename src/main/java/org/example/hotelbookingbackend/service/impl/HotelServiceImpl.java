@@ -55,11 +55,14 @@ public class HotelServiceImpl implements HotelService {
     @Override
     public ResponseEntity<HotelResponse> create(UpsertHotelRequest entityRequest) {
         log.info("Create hotel: {}", entityRequest);
+        Hotel hotel = hotelMapper.upsertRequestToHotel(entityRequest);
+        hotel.setRating(0.0);
+        hotel.setRatingsCount(0);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(
                         hotelMapper.hotelToResponse(
-                                repository.save(hotelMapper.upsertRequestToHotel(entityRequest))
+                                repository.save(hotel)
                         )
                 );
     }

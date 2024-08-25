@@ -29,4 +29,12 @@ public class GlobalControllerExceptionHandler {
                 .body(new ErrorResponse(ex.getMessage()));
     }
 
+    @ExceptionHandler(AlreadyBookedException.class)
+    public ResponseEntity<ErrorResponse> alreadyBooked(AlreadyBookedException ex) {
+        log.error("Room already booked!", ex);
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(new ErrorResponse(ex.getMessage()));
+    }
+
 }

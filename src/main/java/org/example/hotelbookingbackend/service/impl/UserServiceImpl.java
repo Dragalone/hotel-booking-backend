@@ -92,7 +92,7 @@ public class UserServiceImpl implements UserService {
         }
         log.info("Create user: {}", entityRequest);
         User user = userMapper.upsertRequestToUser(entityRequest);
-        user.setRoles(Collections.singleton(role));
+        user.addRole(role);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(

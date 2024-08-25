@@ -11,6 +11,9 @@ import lombok.ToString;
 import org.example.hotelbookingbackend.entity.Hotel;
 
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.UUID;
 @Data
 @NoArgsConstructor
@@ -25,9 +28,7 @@ public class UpsertRoomRequest {
 
     private Integer maxPeopleCount;
 
-    private Instant startBookingDate;
-
-    private Instant endBookingDate;
+    private Set<Instant> bookedDates = new HashSet<>();
 
     private UUID hotelId;
 

@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import org.example.hotelbookingbackend.entity.Hotel;
 
 import java.time.Instant;
-import java.util.UUID;
+import java.util.*;
 
 @Data
 @NoArgsConstructor
@@ -24,9 +24,7 @@ public class RoomResponse {
 
     private Integer maxPeopleCount;
 
-    private Instant startBookingDate;
-
-    private Instant endBookingDate;
+    private TreeSet<Instant> bookedDates = new TreeSet<>();
 
     private HotelResponse hotel;
 

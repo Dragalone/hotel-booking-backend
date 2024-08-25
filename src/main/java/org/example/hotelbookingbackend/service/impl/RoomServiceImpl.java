@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.example.hotelbookingbackend.entity.Room;
 import org.example.hotelbookingbackend.exception.EntityNotFoundException;
 import org.example.hotelbookingbackend.mapper.RoomMapper;
+import org.example.hotelbookingbackend.repository.HotelRepository;
 import org.example.hotelbookingbackend.repository.RoomRepository;
 import org.example.hotelbookingbackend.service.RoomService;
 import org.example.hotelbookingbackend.web.dto.request.UpsertRoomRequest;
@@ -28,6 +29,8 @@ public class RoomServiceImpl implements RoomService {
 
     private final RoomRepository repository;
 
+    private final HotelRepository hotelRepository;
+
     @Override
     public ResponseEntity<RoomResponse> findById(UUID id) {
         log.info("Find room by id: {}", id);
@@ -41,11 +44,15 @@ public class RoomServiceImpl implements RoomService {
     @Override
     public ResponseEntity<RoomResponse> create(UpsertRoomRequest entityRequest) {
         log.info("Create room: {}", entityRequest);
+        Room room = roomMapper.upsertRequestToRoom(entityRequest);
+        room.setHotel(
+                hotelRepository.findById(entityRequest.getHotelId())
+                        .orElseThrow(() -> new EntityNotFoundException(MessageFormat.format("Hotel with id {0} not found!", entityRequest.getHotelId()))));
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(
                         roomMapper.roomToResponse(
-                                repository.save(roomMapper.upsertRequestToRoom(entityRequest))
+                                repository.save(room)
                         )
                 );
     }
@@ -83,11 +90,8 @@ public class RoomServiceImpl implements RoomService {
         if (newEntity.getPrice()!=null){
             oldEntity.setPrice(newEntity.getPrice());
         }
-        if (newEntity.getStartBookingDate()!=null){
-            oldEntity.setStartBookingDate(newEntity.getStartBookingDate());
-        }
-        if (newEntity.getEndBookingDate()!=null){
-            oldEntity.setEndBookingDate(newEntity.getEndBookingDate());
+        if (newEntity.getBookedDates()!=null){
+            oldEntity.setBookedDates(newEntity.getBookedDates());
         }
         if (newEntity.getMaxPeopleCount()!=null){
             oldEntity.setMaxPeopleCount(newEntity.getMaxPeopleCount());

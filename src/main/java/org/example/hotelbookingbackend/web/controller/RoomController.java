@@ -23,17 +23,17 @@ public class RoomController {
     }
 
     @PostMapping
-    public ResponseEntity<RoomResponse> createEvent(@RequestBody UpsertRoomRequest request){
+    public ResponseEntity<RoomResponse> createRoom(@RequestBody UpsertRoomRequest request){
         return roomService.create(request);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<RoomResponse> updateEvent(@PathVariable UUID id, @RequestBody UpsertRoomRequest request){
+    public ResponseEntity<RoomResponse> updateRoom(@PathVariable UUID id, @RequestBody UpsertRoomRequest request){
         return roomService.update(id, request);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteEvent(@PathVariable UUID id){
+    public ResponseEntity<Void> deleteRoom(@PathVariable UUID id){
         return roomService.deleteById(id);
     }
 

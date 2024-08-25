@@ -35,17 +35,17 @@ public class HotelController {
     }
 
     @PostMapping
-    public ResponseEntity<HotelResponse> createEvent(@RequestBody UpsertHotelRequest request){
+    public ResponseEntity<HotelResponse> createHotel(@RequestBody UpsertHotelRequest request){
         return hotelService.create(request);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<HotelResponse> updateEvent(@PathVariable UUID id, @RequestBody UpsertHotelRequest request){
+    public ResponseEntity<HotelResponse> updateHotel(@PathVariable UUID id, @RequestBody UpsertHotelRequest request){
         return hotelService.update(id, request);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteEvent(@PathVariable UUID id){
+    public ResponseEntity<Void> deleteHotel(@PathVariable UUID id){
         return hotelService.deleteById(id);
     }
 

@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.time.Instant;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Data
@@ -27,13 +27,25 @@ public class Room {
 
     private Integer maxPeopleCount;
 
-    private Instant startBookingDate;
 
-    private Instant endBookingDate;
+    @ElementCollection
+    @CollectionTable(
+            name="booked_dates",
+            joinColumns=@JoinColumn(name="room_id")
+    )
+    private Set<Instant> bookedDates = new TreeSet<>();
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "hotel_id")
     @ToString.Exclude
     private Hotel hotel;
+
+    public void addBookedDates(Set<Instant> dates){
+        bookedDates.addAll(dates);
+    }
+
+    public void removeBookedDates(Set<Instant> dates){
+        bookedDates.removeAll(dates);
+    }
 
 }
