@@ -21,4 +21,5 @@ public interface HotelService {
 
     ResponseEntity<Void> deleteById(UUID id);
 
+     ResponseEntity<HotelResponse> addRating(UUID id, Double rating);
 }

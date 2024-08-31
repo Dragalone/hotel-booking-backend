@@ -89,6 +89,26 @@ public class HotelServiceImpl implements HotelService {
         return ResponseEntity.noContent().build();
     }
 
+    @Override
+    public ResponseEntity<HotelResponse> addRating(UUID id, Double rating) {
+        log.info("Add rating to hotel with ID: {}", id);
+        var updatedHotel = repository.findById(id).orElseThrow(() ->
+                new EntityNotFoundException(MessageFormat.format("Hotel with with ID {0} not found!", id)));
+        if (updatedHotel.getRatingsCount() == 0){
+            updatedHotel.setRatingsCount(1);
+            updatedHotel.setRating(rating);
+        } else {
+            double totalRating = updatedHotel.getRating() * updatedHotel.getRatingsCount();
+            totalRating = totalRating - updatedHotel.getRating() + rating;
+            updatedHotel.setRating(totalRating/updatedHotel.getRatingsCount());
+            updatedHotel.setRatingsCount(updatedHotel.getRatingsCount() + 1);
+        }
+        return ResponseEntity.ok(
+                hotelMapper.hotelToResponse(
+                        repository.save(updatedHotel)
+                ));
+    }
+
     protected Hotel updateFields(Hotel oldEntity, Hotel newEntity) {
         if (StringUtils.hasText(newEntity.getName())){
             oldEntity.setName(newEntity.getName());
