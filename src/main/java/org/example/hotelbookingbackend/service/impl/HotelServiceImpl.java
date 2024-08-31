@@ -6,7 +6,9 @@ import org.example.hotelbookingbackend.entity.Hotel;
 import org.example.hotelbookingbackend.exception.EntityNotFoundException;
 import org.example.hotelbookingbackend.mapper.HotelMapper;
 import org.example.hotelbookingbackend.repository.HotelRepository;
+import org.example.hotelbookingbackend.repository.HotelSpecification;
 import org.example.hotelbookingbackend.service.HotelService;
+import org.example.hotelbookingbackend.web.dto.request.HotelFilterRequest;
 import org.example.hotelbookingbackend.web.dto.request.UpsertHotelRequest;
 import org.example.hotelbookingbackend.web.dto.response.HotelResponse;
 import org.example.hotelbookingbackend.web.dto.response.ModelListResponse;
@@ -36,6 +38,19 @@ public class HotelServiceImpl implements HotelService {
         log.info("Find all hotels");
         Page<Hotel> hotels = repository.findAll(pageable);
         return ResponseEntity.ok(                ModelListResponse.<HotelResponse>builder()
+                .totalCount(hotels.getTotalElements())
+                .data(hotels.stream().map(hotelMapper::hotelToResponse).toList())
+                .build()
+        );
+    }
+
+    @Override
+    public ResponseEntity<ModelListResponse<HotelResponse>> filterBy(HotelFilterRequest filter) {
+        log.info("Filter hotels with parameters: {}",filter);
+        Page<Hotel> hotels = repository.findAll(HotelSpecification.withFilter(filter)
+                ,filter.pageRequest());
+        return ResponseEntity.ok(
+                ModelListResponse.<HotelResponse>builder()
                 .totalCount(hotels.getTotalElements())
                 .data(hotels.stream().map(hotelMapper::hotelToResponse).toList())
                 .build()

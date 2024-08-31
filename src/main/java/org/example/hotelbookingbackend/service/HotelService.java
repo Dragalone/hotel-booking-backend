@@ -1,5 +1,6 @@
 package org.example.hotelbookingbackend.service;
 
+import org.example.hotelbookingbackend.web.dto.request.HotelFilterRequest;
 import org.example.hotelbookingbackend.web.dto.request.UpsertHotelRequest;
 import org.example.hotelbookingbackend.web.dto.response.HotelResponse;
 import org.example.hotelbookingbackend.web.dto.response.ModelListResponse;
@@ -13,6 +14,8 @@ public interface HotelService {
 
     ResponseEntity<ModelListResponse<HotelResponse>> findAll(Pageable pageable);
 
+    ResponseEntity<ModelListResponse<HotelResponse>> filterBy(HotelFilterRequest filter);
+
     ResponseEntity<HotelResponse> findById(UUID id);
 
     ResponseEntity<HotelResponse> create(UpsertHotelRequest entityRequest);
@@ -22,4 +25,6 @@ public interface HotelService {
     ResponseEntity<Void> deleteById(UUID id);
 
      ResponseEntity<HotelResponse> addRating(UUID id, Double rating);
+
+
 }

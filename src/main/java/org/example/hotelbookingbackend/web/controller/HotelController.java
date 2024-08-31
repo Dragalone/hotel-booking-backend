@@ -7,6 +7,7 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.example.hotelbookingbackend.service.HotelService;
+import org.example.hotelbookingbackend.web.dto.request.HotelFilterRequest;
 import org.example.hotelbookingbackend.web.dto.request.PaginationRequest;
 import org.example.hotelbookingbackend.web.dto.request.UpsertHotelRequest;
 import org.example.hotelbookingbackend.web.dto.response.HotelResponse;
@@ -28,8 +29,8 @@ public class HotelController {
     private final HotelService hotelService;
 
     @GetMapping
-    public ResponseEntity<ModelListResponse<HotelResponse>> getAll(@Valid PaginationRequest paginationRequest){
-        return hotelService.findAll(paginationRequest.pageRequest());
+    public ResponseEntity<ModelListResponse<HotelResponse>> filterBy(@Valid HotelFilterRequest filterRequest){
+        return hotelService.filterBy(filterRequest);
     }
 
     @GetMapping("/{id}")
